@@ -1,0 +1,7 @@
+# depslib dependency file v1.0
+1477517681 source:c:\users\sky\onedrive\learn c++\elgamaltest\main.cpp
+	<iostream>
+	<string>
+	<sstream>
+	<cmath>
+
