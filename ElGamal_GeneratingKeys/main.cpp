@@ -18,13 +18,16 @@ int main()
 		for (int ii = 1; ii < pr; ii++) {
 			if (pr%ii == 0)
 				count += 1;
-		}
-		if (count >= 2)
-		{
-			cout << "pr " << pr << " is NOT prime" << endl;
+
+            if (count ==2){
+ 			cout << "pr " << pr << " is NOT prime" << endl;
 			Found = false;
+			break
+
+            }
 		}
-		else
+		if (count ==1)
+
 		{
 			cout << "pr " << pr << " is prime" << endl;
 			Found = true;
