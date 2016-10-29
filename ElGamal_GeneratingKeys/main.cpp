@@ -22,7 +22,7 @@ int main()
             if (count ==2){
  			cout << "pr " << pr << " is NOT prime" << endl;
 			Found = false;
-			break
+			break;
 
             }
 		}
