@@ -6,6 +6,51 @@
 #include <cmath>
 using namespace std;
 
+int K_modulus(int prime, int aa, int bb) {
+	
+	int m = 0; //initialize the length of the binary array of xx
+	int lenxx = bb; //save the value of the key xx for the next calculation
+	int r;
+	//compute the length of xx in binary
+	while (lenxx != 0) {
+		r = lenxx % 2;
+		m++;
+		lenxx /= 2;
+	}
+	
+	int* BitArray = new int[m];
+	unsigned long int* ArrP2 = new unsigned long int[m]; //Arrp2 to contain 2 to power
+
+	int indexB = 0;
+	while (bb != 0) {
+		r = bb % 2;
+		BitArray[indexB++] = r;
+		bb /= 2;
+	}
+
+	//gg to the power of xx then mod pr
+	
+	ArrP2[0] = aa;
+	unsigned long long int pp2;
+	for (int jj = 1; jj < m; jj++) {
+		pp2 = pow(ArrP2[jj - 1], 2);
+		ArrP2[jj] = pp2 % prime;
+	}
+	//now calculate the final value of modulus	
+	unsigned long int Temp = 1;
+	for (int nn = 0; nn < m; nn++) {
+		if (BitArray[nn] != 0) {
+			Temp = Temp*ArrP2[nn];
+		}
+	}
+
+	unsigned long int ValueY = Temp%prime;
+	
+	delete[] BitArray;
+	delete[] ArrP2;
+	return ValueY;
+
+}
 
 
 int main()
@@ -57,9 +102,10 @@ int main()
 	cout << "Your SECRET KEY is: " << xx << endl;
 
 
-	unsigned long long yy = pow(gg, xx);
+	unsigned long int yy ;
 	// Calculate Y = (G to the power of xx) mod P
-	yy = yy%pr;
+	//call the function to do the modulus
+	yy = K_modulus(pr, gg, xx);
 
 	cout << "The PUBLIC KEYs are (use these parameters to do the encryption): ";
 	cout << "p= " << pr << " and G = " << gg << " and Y= " << yy << endl<<endl;
@@ -80,19 +126,22 @@ int main()
 	cout << endl;
 	
 
-	int k = 0;
+	int k;
 	do {
 		cout << "Select a random number for your k; k in range (1, " << pr - 1 << ")" << endl;
 		cin >> k; //k is the number that Alice chooses
 
 	} while (k >= pr || k <= 1);
 	
-	unsigned long long gamma = pow(gg, k);
-	gamma = gamma%pr;
+	unsigned long int gamma;
+	gamma = K_modulus(pr,gg,k);
 	cout << "The value of gamma is " << gamma << endl;
 
-	unsigned long long cc = message * pow(yy, k); //cc is the value of the cipher text
-	cc= cc%pr;
+	unsigned long int Kag;
+	Kag = K_modulus(pr, yy, k);
+
+	unsigned long int cc = message * Kag; //cc is the value of the cipher text
+	
 	cout << "The value of cipher text is " << cc << endl;;
 	cout << "Send these values to Bob (" << gamma << "," << cc << ")" << endl<<endl; //c 
 	
@@ -100,10 +149,13 @@ int main()
 	//Decryption
 
 	cout << "*********** Decryption part********************" << endl;
-	unsigned long long decrypt = pow(gamma, xx);
-	decrypt = decrypt%pr;
+	unsigned long int decrypt;
+	decrypt = K_modulus(pr, gamma, xx);
 
-	int ptext;
+	int ptext = cc / decrypt;
+	cout << "Here it is " << ptext << endl;
+
+	/*
 	for (int kk = 1; kk <= pr; kk++) {
 		if ((pr*kk + cc) % decrypt == 0){
 		ptext = (pr*kk + cc) / decrypt;
@@ -114,7 +166,7 @@ int main()
 		
 
 	}
-
+	*/
 	
 
 	system("PAUSE");
