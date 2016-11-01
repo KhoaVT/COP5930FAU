@@ -37,7 +37,7 @@ int K_modulus(int prime, int aa, int bb) {
 		ArrP2[jj] = pp2 % prime;
 	}
 	//now calculate the final value of modulus	
-	unsigned long int Temp = 1;
+	unsigned long long int Temp = 1;
 	for (int nn = 0; nn < m; nn++) {
 		if (BitArray[nn] != 0) {
 			Temp = Temp*ArrP2[nn];
@@ -52,9 +52,12 @@ int K_modulus(int prime, int aa, int bb) {
 
 }
 
-
+/*-------------- Main program -----------------*/
 int main()
+
 {
+	cout << "*** ElGamal encryption and decryption implementation ***" << endl;
+	cout << "************** Deepthi - Patorn - Khoa *****************" << endl<<endl;
 	int pr;
 	bool Found = false;
 	do {
@@ -153,21 +156,8 @@ int main()
 	decrypt = K_modulus(pr, gamma, xx);
 
 	int ptext = cc / decrypt;
+	cout << "The plain text you have entered: " << endl;
 	cout << "Here it is " << ptext << endl;
-
-	/*
-	for (int kk = 1; kk <= pr; kk++) {
-		if ((pr*kk + cc) % decrypt == 0){
-		ptext = (pr*kk + cc) / decrypt;
-		cout << "The plain text: " << endl;
-		cout << "Here it is " << ptext << endl;
-		break;
-		}
-		
-
-	}
-	*/
-	
 
 	system("PAUSE");
 	return (0);
